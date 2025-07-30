@@ -1,0 +1,70 @@
+# Documentação
+# (remova a linha abaixo se quiser versionar HELP.md)
+# HELP.md
+
+# Build e dependências
+target/
+build/
+
+# Maven Wrapper (versão recomendada: incluir os arquivos do wrapper)
+.mvn/wrapper/maven-wrapper.jar
+.mvn/wrapper/maven-wrapper.properties
+
+# IDEs
+
+## Spring Tool Suite (STS)
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+
+## IntelliJ IDEA
+.idea/
+*.iws
+*.iml
+*.ipr
+out/
+
+## NetBeans
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+
+## Eclipse
+.project
+.classpath
+.settings/
+bin/
+
+## VS Code
+.vscode/
+
+# Logs e arquivos temporários
+**/logs/
+*.log
+*.tmp
+*.bak
+*.swp
+*.swo
+*~
+
+# Arquivos de sistema operacional
+.DS_Store
+Thumbs.db
+
+# Arquivos compactados
+*.zip
+*.tar.gz
+*.rar
+
+# Banco de dados local (exemplo H2)
+*.mv.db
+*.h2.db
+
+# Arquivo de variáveis de ambiente
+.env
