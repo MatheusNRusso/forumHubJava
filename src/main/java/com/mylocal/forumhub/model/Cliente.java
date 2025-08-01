@@ -34,6 +34,9 @@ public class Cliente {
     @JoinColumn(name = "usuario_id", nullable = false)
     private Usuario usuario;
 
+    @Column(nullable = false)
+    private boolean ativo;
+
     @CreationTimestamp
     @Column(name = "data_criacao", updatable = false )
     private LocalDateTime dataCriacao;
@@ -41,5 +44,13 @@ public class Cliente {
     @UpdateTimestamp
     @Column(name = "data_atualizacao")
     private LocalDateTime dataAtualizacao;
+
+    public void ativarCliente() {
+        this.ativo = true;
+    }
+
+    public void inativarCliente() {
+        this.ativo = false;
+    }
 }
 
