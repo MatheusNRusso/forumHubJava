@@ -2,8 +2,11 @@ package com.mylocal.forumhub.dto;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Pattern;
 import org.hibernate.validator.constraints.Length;
+
+import java.util.List;
 
 public record UsuarioCreateDto(
 
@@ -15,4 +18,6 @@ public record UsuarioCreateDto(
                 regexp = "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d@$!%*?&]{8,}$",
                 message = "A senha deve conter ao menos uma letra e um número, e no mínimo 8 caracteres"
         )
-        String senha) {}
+        String senha,
+        @NotEmpty(message = "Informe pelo menos um perfil para o usuário.")
+        List<Long> perfis) {}

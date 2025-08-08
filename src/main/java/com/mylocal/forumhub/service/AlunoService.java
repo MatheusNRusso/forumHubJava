@@ -1,11 +1,10 @@
 package com.mylocal.forumhub.service;
 
-import com.mylocal.forumhub.dto.ClienteCreateDto;
-import com.mylocal.forumhub.dto.ClienteShowDto;
-import com.mylocal.forumhub.dto.UsuarioShowDto;
-import com.mylocal.forumhub.mapper.ClienteMapper;
-import com.mylocal.forumhub.model.Cliente;
-import com.mylocal.forumhub.repository.ClienteRepository;
+import com.mylocal.forumhub.dto.AlunoCreateDto;
+import com.mylocal.forumhub.dto.AlunoShowDto;
+import com.mylocal.forumhub.mapper.AlunoMapper;
+import com.mylocal.forumhub.model.Aluno;
+import com.mylocal.forumhub.repository.AlunoRepository;
 import com.mylocal.forumhub.repository.UsuarioRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -14,64 +13,61 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class ClienteService {
+public class AlunoService {
 
 
-    private final ClienteRepository clienteRepository;
+    private final AlunoRepository alunoRepository;
 
-    private final  ClienteMapper clienteMapper;
+    private final AlunoMapper alunoMapper;
 
     private final UsuarioRepository usuarioRepository;
 
-    public ClienteShowDto cadastrar(ClienteCreateDto dto) {
+    public AlunoShowDto cadastrar(AlunoCreateDto dto) {
         var usuario = usuarioRepository.findById(dto.usuarioId())
                 .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
-        var cliente = Cliente.builder()
+        var aluno = Aluno.builder()
                 .nome(dto.nome())
                 .telefone(dto.telefone())
                 .cpf(dto.cpf())
                 .usuario(usuario)
                 .ativo(true)
                 .build();
-        var clienteNovo =  clienteRepository.save(cliente);
-        return clienteMapper.toDto(clienteNovo);
+        var alunoNovo =  alunoRepository.save(aluno);
+        return alunoMapper.toDto(alunoNovo);
     }
 
-    public Page<ClienteShowDto> listarClientes(Pageable pageable) {
-        return clienteRepository
+    public Page<AlunoShowDto> show(Pageable pageable) {
+        return alunoRepository
                 .findAll(pageable)
-                .map(clienteMapper::toDto);
+                .map(alunoMapper::toDto);
     }
 
-    public ClienteShowDto buscarPorId(Long id) {
-        return clienteRepository.findById(id)
-                .map(clienteMapper::toDto).orElse(null);
+    public AlunoShowDto buscarPorId(Long id) {
+        return alunoRepository.findById(id)
+                .map(alunoMapper::toDto).orElse(null);
     }
-    public Page<ClienteShowDto> listarClientesAtivos(Pageable pageable) {
-        return clienteRepository.findAllByAtivoIsTrue(pageable).map(clienteMapper::toDto);
-    }
-
-    public Page<ClienteShowDto> listarClientesInativos(Pageable pageable) {
-        return clienteRepository.findAllByAtivoIsFalse(pageable).map(clienteMapper::toDto);
+    public Page<AlunoShowDto> listarAlunosAtivos(Pageable pageable) {
+        return alunoRepository.findAllByAtivoIsTrue(pageable).map(alunoMapper::toDto);
     }
 
-    public void desativarCliente(Long id) {
-        var cliente = clienteRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Cliente não encontrado"));
-
-        cliente.setAtivo(false);
-        clienteRepository.save(cliente);
+    public Page<AlunoShowDto> listarAlunosInativos(Pageable pageable) {
+        return alunoRepository.findAllByAtivoIsFalse(pageable).map(alunoMapper::toDto);
     }
 
-    public void ativarCliente(Long id) {
-        var cliente = clienteRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Cliente não encontrado"));
+    public void desativarAluno(Long id) {
+        var aluno = alunoRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Aluno não encontrado"));
 
-        cliente.setAtivo(true);
-        clienteRepository.save(cliente);
+        aluno.setAtivo(false);
+        alunoRepository.save(aluno);
     }
 
+    public void ativarAluno(Long id) {
+        var aluno = alunoRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Aluno não encontrado"));
 
-
+        aluno.setAtivo(true);
+        alunoRepository.save(aluno);
+    }
 
 }

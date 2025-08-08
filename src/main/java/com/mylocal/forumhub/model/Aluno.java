@@ -6,16 +6,18 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
-@Entity(name = "Cliente")
-@Table(name = "cliente")
+@Entity(name = "Aluno")
+@Table(name = "aluno")
 @Getter
 @Setter
 @Builder
 @NoArgsConstructor
 @EqualsAndHashCode(of = "id")
 @AllArgsConstructor
-public class Cliente {
+public class Aluno {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -37,6 +39,14 @@ public class Cliente {
     @Column(nullable = false)
     private boolean ativo;
 
+    @ManyToMany
+    @JoinTable(
+            name = "aluno_curso",
+            joinColumns = @JoinColumn(name = "aluno_id"),
+            inverseJoinColumns = @JoinColumn(name = "curso_id")
+    )
+    private Set<Curso> cursos = new HashSet<>();
+
     @CreationTimestamp
     @Column(name = "data_criacao", updatable = false )
     private LocalDateTime dataCriacao;
@@ -45,11 +55,11 @@ public class Cliente {
     @Column(name = "data_atualizacao")
     private LocalDateTime dataAtualizacao;
 
-    public void ativarCliente() {
+    public void ativarAluno() {
         this.ativo = true;
     }
 
-    public void inativarCliente() {
+    public void inativarAluno() {
         this.ativo = false;
     }
 }

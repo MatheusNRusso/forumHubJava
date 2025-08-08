@@ -1,10 +1,10 @@
 package com.mylocal.forumhub.controller;
 
-import com.mylocal.forumhub.dto.ClienteCreateDto;
-import com.mylocal.forumhub.dto.ClienteShowDto;
-import com.mylocal.forumhub.service.ClienteService;
+import com.mylocal.forumhub.dto.AlunoCreateDto;
+import com.mylocal.forumhub.dto.AlunoShowDto;
+import com.mylocal.forumhub.service.AlunoService;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -13,52 +13,52 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
+@RequiredArgsConstructor
 @RestController
-@RequestMapping("/clientes")
-public class ClienteController {
+@RequestMapping("/alunos")
+public class AlunoController {
 
-    @Autowired
-    private ClienteService clienteService;
+    private final AlunoService alunoService;
 
     @PostMapping
     @Transactional
-    public ResponseEntity<ClienteShowDto> create(@RequestBody @Valid ClienteCreateDto clienteCreateDto, UriComponentsBuilder uriBuilder) {
-        var cliente = clienteService.cadastrar(clienteCreateDto);
-        var uri = uriBuilder.path("/clientes/{id}").buildAndExpand(cliente.id()).toUri();
-        return ResponseEntity.created(uri).body(cliente);
+    public ResponseEntity<AlunoShowDto> create(@RequestBody @Valid AlunoCreateDto alunoCreateDto, UriComponentsBuilder uriBuilder) {
+        var aluno = alunoService.cadastrar(alunoCreateDto);
+        var uri = uriBuilder.path("/alunos/{id}").buildAndExpand(aluno.id()).toUri();
+        return ResponseEntity.created(uri).body(aluno);
 
     }
     @GetMapping
-    public ResponseEntity<Page<ClienteShowDto>> findAll(@PageableDefault(size = 10, sort = "nome") Pageable pageable) {
-        return ResponseEntity.ok(clienteService.listarClientes(pageable));
+    public ResponseEntity<Page<AlunoShowDto>> findAll(@PageableDefault(size = 10, sort = "nome") Pageable pageable) {
+        return ResponseEntity.ok(alunoService.show(pageable));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ClienteShowDto> findById(@PathVariable Long id) {
-        return ResponseEntity.ok(clienteService.buscarPorId(id));
+    public ResponseEntity<AlunoShowDto> findById(@PathVariable Long id) {
+        return ResponseEntity.ok(alunoService.buscarPorId(id));
     }
 
     @GetMapping("/ativos")
-    public ResponseEntity<Page<ClienteShowDto>> findAllAtctivos(@PageableDefault(size = 10, sort = "nome") Pageable pageable) {
-        return ResponseEntity.ok(clienteService.listarClientesAtivos(pageable));
+    public ResponseEntity<Page<AlunoShowDto>> findAllAtctivos(@PageableDefault(size = 10, sort = "nome") Pageable pageable) {
+        return ResponseEntity.ok(alunoService.listarAlunosAtivos(pageable));
     }
 
     @GetMapping("/inativos")
-    public ResponseEntity<Page<ClienteShowDto>> findAllDeactivate(@PageableDefault(size = 10, sort = "nome") Pageable pageable) {
-        return ResponseEntity.ok(clienteService.listarClientesInativos(pageable));
+    public ResponseEntity<Page<AlunoShowDto>> findAllDeactivate(@PageableDefault(size = 10, sort = "nome") Pageable pageable) {
+        return ResponseEntity.ok(alunoService.listarAlunosInativos(pageable));
     }
 
     @DeleteMapping("/{id}")
     @Transactional
     public ResponseEntity<Void> desativar(@PathVariable Long id) {
-        clienteService.desativarCliente(id);
+        alunoService.desativarAluno(id);
         return ResponseEntity.noContent().build();
     }
 
     @PutMapping("/{id}/ativar")
     @Transactional
     public ResponseEntity<Void> ativar(@PathVariable Long id) {
-        clienteService.ativarCliente(id);
+        alunoService.ativarAluno(id);
         return ResponseEntity.noContent().build();
     }
 

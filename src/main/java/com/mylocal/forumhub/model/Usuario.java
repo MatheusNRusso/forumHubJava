@@ -42,6 +42,23 @@ public class Usuario implements UserDetails {
     @Column(name = "data_atualizacao")
     private LocalDateTime dataAtualizacao;
 
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "usuario_perfil",
+            joinColumns = @JoinColumn(name = "usuario_id"),
+            inverseJoinColumns = @JoinColumn(name = "perfil_id")
+    )
+    private List<Perfil> perfis = new java.util.ArrayList<>();
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return perfis.stream()
+                .map(perfil -> new SimpleGrantedAuthority("ROLE_" + perfil.getNome().toUpperCase()))
+                .toList();
+    }
+
+
     public void ativarUsuario() {
         this.ativo = true;
     }
@@ -50,10 +67,6 @@ public class Usuario implements UserDetails {
         this.ativo = false;
     }
 
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority("ROLE_USER"));
-    }
 
     @Override
     public String getPassword() {

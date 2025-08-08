@@ -1,14 +1,13 @@
 package com.mylocal.forumhub.repository;
 
-import aj.org.objectweb.asm.commons.Remapper;
-import com.mylocal.forumhub.model.Cliente;
+import com.mylocal.forumhub.model.Aluno;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface ClienteRepository extends JpaRepository<Cliente, Long> {
+public interface AlunoRepository extends JpaRepository<Aluno, Long> {
 
-    Page<Cliente> findAllByAtivoIsTrue(Pageable pageable);
+    Page<Aluno> findAllByAtivoIsTrue(Pageable pageable);
 
-    Page<Cliente> findAllByAtivoIsFalse(Pageable pageable);
+    Page<Aluno> findAllByAtivoIsFalse(Pageable pageable);
 }

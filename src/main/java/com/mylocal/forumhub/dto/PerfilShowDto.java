@@ -1,4 +1,13 @@
 package com.mylocal.forumhub.dto;
 
-public record PerfilShowDto() {
+import jakarta.validation.constraints.NotNull;
+
+public record PerfilShowDto(
+        @NotNull
+        Long id,
+
+        String nome,
+
+        Integer nivel
+) {
 }
