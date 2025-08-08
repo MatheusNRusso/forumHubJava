@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
 @RestController
-@RequestMapping("clientes")
+@RequestMapping("/clientes")
 public class ClienteController {
 
     @Autowired
@@ -24,7 +24,7 @@ public class ClienteController {
     @Transactional
     public ResponseEntity<ClienteShowDto> create(@RequestBody @Valid ClienteCreateDto clienteCreateDto, UriComponentsBuilder uriBuilder) {
         var cliente = clienteService.cadastrar(clienteCreateDto);
-        var uri = uriBuilder.path("clientes/{id}").buildAndExpand(cliente.id()).toUri();
+        var uri = uriBuilder.path("/clientes/{id}").buildAndExpand(cliente.id()).toUri();
         return ResponseEntity.created(uri).body(cliente);
 
     }
