@@ -1,5 +1,6 @@
 package com.mylocal.forumhub.service;
 
+import com.mylocal.forumhub.config.exception.EntityExistsException;
 import com.mylocal.forumhub.dto.CursoCreateDto;
 import com.mylocal.forumhub.dto.CursoShowDto;
 import com.mylocal.forumhub.mapper.CursoMapper;
@@ -18,9 +19,17 @@ public class CursoService {
     private final CursoMapper cursoMapper;
 
     public CursoShowDto createCurso(CursoCreateDto dto) {
-        var curso = cursoMapper.toEntity(dto);
-        var cursoSalvo = cursoRepository.save(curso);
-        return cursoMapper.toDto(cursoSalvo);
+
+            if (cursoRepository.existsByNome(dto.nome())) {
+                throw new EntityExistsException("Nome do curso já existente");
+            }
+            var curso = Curso.builder()
+                    .nome(dto.nome())
+                    .categoria(dto.categoria())
+                    .ativo(true)
+                    .build();
+            var cursoNovo = cursoRepository.save(curso);
+            return cursoMapper.toDto(cursoNovo);
 
     }
 

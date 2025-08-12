@@ -31,6 +31,9 @@ public class Curso {
     @Column(nullable = false)
     private Categoria categoria;
 
+    @Column(nullable = false)
+    private boolean ativo;
+
     @CreationTimestamp
     @Column(name = "data_criacao", updatable = false )
     private LocalDateTime dataCriacao;
@@ -42,16 +45,5 @@ public class Curso {
     @ManyToMany(mappedBy = "cursos")
     private Set<Aluno> alunos = new HashSet<>();
 
-//
-//    @PrePersist
-//    public void prePersist() {
-//        dataCriacao = LocalDateTime.now();
-//        dataAtualizacao = LocalDateTime.now();
-//    }
-//
-//    @PreUpdate
-//    public void preUpdate() {
-//        dataAtualizacao = LocalDateTime.now();
-//    }
 
 }

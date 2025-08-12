@@ -1,5 +1,6 @@
 package com.mylocal.forumhub.dto;
 
+
 import jakarta.validation.constraints.NotNull;
 
 public record AlunoShowDto(
@@ -7,4 +8,5 @@ public record AlunoShowDto(
         Long id,
         String nome,
         String telefone
-) {}
+) {
+}

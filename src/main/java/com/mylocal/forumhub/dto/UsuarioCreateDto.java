@@ -19,5 +19,9 @@ public record UsuarioCreateDto(
                 message = "A senha deve conter ao menos uma letra e um número, e no mínimo 8 caracteres"
         )
         String senha,
+
+        @NotBlank
+        String nome,
+
         @NotEmpty(message = "Informe pelo menos um perfil para o usuário.")
         List<Long> perfis) {}

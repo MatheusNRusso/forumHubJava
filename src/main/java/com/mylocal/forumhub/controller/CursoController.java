@@ -7,7 +7,10 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.UriComponentsBuilder;
 
 @RestController
 @RequestMapping("/cursos")
@@ -17,13 +20,23 @@ public class CursoController {
     private final CursoService cursoService;
 
     @PostMapping
-    public CursoShowDto create(@RequestBody @Valid CursoCreateDto dto) {
-        return cursoService.createCurso(dto);
+    public ResponseEntity<CursoShowDto> create(@RequestBody @Valid CursoCreateDto dto, UriComponentsBuilder uriBuilder) {
+
+
+            var curso = cursoService.createCurso(dto);
+            var uri = uriBuilder.path("/cursos/{id}")
+                    .buildAndExpand(curso.id())
+                    .toUri();
+
+            return ResponseEntity.created(uri)
+                    .body(curso);
+
+
     }
 
     @GetMapping
-    public Page<CursoShowDto> getAll(Pageable pageable) {
-        return cursoService.showAllCursos(pageable);
+    public ResponseEntity<Page<CursoShowDto>> getAll(@PageableDefault(size=10,sort="nome") Pageable pageable) {
+        return ResponseEntity.ok(cursoService.showAllCursos(pageable));
     }
 
     @GetMapping("/{id}")

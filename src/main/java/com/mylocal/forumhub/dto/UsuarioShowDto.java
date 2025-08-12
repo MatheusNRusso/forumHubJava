@@ -6,6 +6,7 @@ public record UsuarioShowDto(
         @NotNull
         Long id,
         String email,
+        String nome,
         boolean ativo
 ) {
 }

@@ -30,6 +30,7 @@ public class UsuarioService {
                 .senha(passwordEncoder.encode(usuarioCreateDto.senha()))
                 .ativo(true)
                 .perfis(perfis)
+                .nome(usuarioCreateDto.nome())
                 .build();
         var usuarioNovo = usuarioRepository.save(usuario);
 

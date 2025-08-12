@@ -42,7 +42,7 @@ public class UsuarioController {
     }
 
     @GetMapping("/ativos")
-    public ResponseEntity<Page<UsuarioShowDto>> findAllAtctivos(@PageableDefault(size = 10) Pageable pageable) {
+    public ResponseEntity<Page<UsuarioShowDto>> findAllActivos(@PageableDefault(size = 10) Pageable pageable) {
         return ResponseEntity.ok(usuarioService.listarUsuariosAtivos(pageable));
     }
 
